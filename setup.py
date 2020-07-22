@@ -20,11 +20,17 @@ sonata_client = pkgconfig.parse('sonata-client')
 sonata_server = pkgconfig.parse('sonata-server')
 sonata_admin  = pkgconfig.parse('sonata-admin')
 
+extra_compile_args=['-std=c++14']
+if sys.platform == 'darwin':
+    extra_compile_args.append('-mmacosx-version-min=10.9')
+
 sonata_server_ext = Extension('_sonata_server',
         ['pysonata/src/server_module.cpp'],
         libraries=sonata_server['libraries'],
         library_dirs=sonata_server['library_dirs'],
         include_dirs=sonata_server['include_dirs'] + [get_pybind11_include()],
+        language='c++14',
+        extra_compile_args=extra_compile_args,
         depends=[])
 
 sonata_admin_ext = Extension('_sonata_admin',
@@ -32,6 +38,8 @@ sonata_admin_ext = Extension('_sonata_admin',
         libraries=sonata_admin['libraries'],
         library_dirs=sonata_admin['library_dirs'],
         include_dirs=sonata_admin['include_dirs'] + [get_pybind11_include()],
+        language='c++14',
+        extra_compile_args=extra_compile_args,
         depends=[])
 
 sonata_client_ext = Extension('_sonata_client',
@@ -39,6 +47,8 @@ sonata_client_ext = Extension('_sonata_client',
         libraries=sonata_client['libraries'],
         library_dirs=sonata_client['library_dirs'],
         include_dirs=sonata_client['include_dirs'] + [get_pybind11_include()],
+        language='c++14',
+        extra_compile_args=extra_compile_args,
         depends=[])
 
 setup(name='py-sonata',
