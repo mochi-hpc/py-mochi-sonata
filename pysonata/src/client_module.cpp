@@ -16,7 +16,8 @@ PYBIND11_MODULE(_sonata_client, m) {
     m.doc() = "Sonata client C++ extension";
     py11::class_<Client>(m, "SonataClient")
         .def(py11::init<pymargo_instance_id>())
-        .def("open", &Client::open,
+        .def("open", static_cast<Database (Client::*)(const std::string&,
+                    uint16_t, const std::string&, bool) const>(&Client::open),
                 "Open a remote database."
                 "address"_a,
                 "provider_id"_a,
